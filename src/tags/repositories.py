@@ -37,6 +37,9 @@ class TagRepository:
         )
 
     async def get_tags(self, user_id: uuid.UUID | None, filters: TagFilters) -> list[Tag]:
+        if filters.user.id == uuid.UUID(int=0):
+            filters.user.id = None
+
         sql = filters.filter(filters.sort(self._get_all_tags_sql()))
         raw_tags = await self._db_session.execute(sql, {'user_id': user_id})
 
