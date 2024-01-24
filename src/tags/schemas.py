@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import UploadFile, Form
+from fastapi import UploadFile, Form, File
 from pydantic import BaseModel
 
 
@@ -16,7 +16,7 @@ class TagCreate(BaseModel):
             latitude: Annotated[float, Form()],
             longitude: Annotated[float, Form()],
             description: Annotated[str, Form()],
-            image: UploadFile | None = None
+            image: Annotated[UploadFile, File()] = None
     ) -> 'TagCreate':
         return cls(
             latitude=latitude,

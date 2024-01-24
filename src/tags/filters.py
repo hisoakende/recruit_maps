@@ -22,7 +22,7 @@ class TagFilters(BaseFilter):
     class Constants(BaseFilter.Constants):
         model = DbTag
 
-    @field_validator('image', 'image__neq', mode='plain')
+    @field_validator('image', 'image__neq', mode='before')
     def process_image(cls, value: str) -> str | None:
         if value in ('none', 'null'):
             return None

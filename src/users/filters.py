@@ -16,9 +16,9 @@ class UserFilter(BaseFilter):
         model = DbUser
 
     @field_validator('id', mode='before')
-    def process_user(cls, value: Any) -> uuid.UUID | str | None:
+    def process_user(cls, value: uuid.UUID | str) -> uuid.UUID | str:
         if value in ('none', 'null'):
-            return None
+            return uuid.UUID(int=0)
 
         if isinstance(value, uuid.UUID):
             return value

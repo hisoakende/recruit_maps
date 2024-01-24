@@ -19,7 +19,7 @@ class TagService:
         self._repository = repository
 
     async def get_tags(self, user: User | None, tag_filters: TagFilters) -> list[Tag]:
-        user_id = user.id if User is not None else None
+        user_id = user.id if user is not None else None
         return await self._repository.get_tags(user_id, tag_filters)
 
     async def create_tag(self, user: User | None, tag_create: TagCreate) -> Tag:
