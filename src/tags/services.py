@@ -41,11 +41,16 @@ class TagService:
         await self._repository.create_tag(tag)
         return tag
 
-    async def delete_tag(self, user: User | None, tag_id: uuid.UUID) -> None:
+    async def delete_tag(self, user: User | None, tag_id: uuid.UUID, superuser_code: str | None) -> None:
+        if superuser_code == config.SUPERUSER_CODE:
+            await self._get_tag(None, tag_id)
+            await self._repository.delete_tag(tag_id)
+            return
+
         if user is None:
             raise NotPermitted
 
-        tag = await self._get_tag(user, tag_id)
+        tag = await self._get_tag(user.id, tag_id)
         if tag.user is None or tag.user.id != user.id:
             raise NotPermitted
 
@@ -55,7 +60,7 @@ class TagService:
         if user is None:
             raise NotPermitted
 
-        tag = await self._get_tag(user, tag_id)
+        tag = await self._get_tag(user.id, tag_id)
         tag.like()
         await self._repository.create_like(user.id, tag_id)
 
@@ -65,12 +70,12 @@ class TagService:
         if user is None:
             raise NotPermitted
 
-        tag = await self._get_tag(user, tag_id)
+        tag = await self._get_tag(user.id, tag_id)
         tag.delete_like()
         await self._repository.delete_like_from_tag(user.id, tag_id)
 
-    async def _get_tag(self, user: User, tag_id: uuid.UUID) -> Tag:
-        tag = await self._repository.get_tag(user.id, tag_id)
+    async def _get_tag(self, user_id: uuid.UUID | None, tag_id: uuid.UUID) -> Tag:
+        tag = await self._repository.get_tag(user_id, tag_id)
         if tag is None:
             raise TagDoesntExist
         return tag

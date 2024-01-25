@@ -1,7 +1,7 @@
 import uuid
 from typing import Annotated
 
-from fastapi import status, APIRouter, Depends, HTTPException
+from fastapi import status, APIRouter, Depends, HTTPException, Query
 from fastapi_filter import FilterDepends
 from src.tags.filters import TagFilters
 
@@ -49,10 +49,11 @@ async def create_tag(
 async def delete_tag(
         tag_id: uuid.UUID,
         tag_service: tag_service_dependence,
-        user: user_dependence
+        user: user_dependence,
+        superuser_code: Annotated[str | None, Query(include_in_schema=False)] = None
 ) -> None:
     try:
-        await tag_service.delete_tag(user, tag_id)
+        await tag_service.delete_tag(user, tag_id, superuser_code)
 
     except NotPermitted:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)

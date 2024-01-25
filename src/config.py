@@ -14,3 +14,5 @@ DB_URL = f'postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_
 JWT_SECRET = os.getenv('JWT_SECRET', 'super_secret')
 
 STORAGE_PATH = os.getenv('STORAGE_PATH', 'storage')
+
+SUPERUSER_CODE = os.getenv('SUPERUSER_CODE', 'bvdfhbvflmdvi')

@@ -10,6 +10,7 @@ DB_NAME= (default: recruit_maps)
 
 JWT_SECRET= (default: super_secret)
 STORAGE_PATH= (default: storage)
+SUPERUSER_CODE= (default: bvdfhbvflmdvi)
 ```
 
 ## Запуск для разработки
