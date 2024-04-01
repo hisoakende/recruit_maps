@@ -17,6 +17,7 @@ class UserFilter(BaseFilter):
 
     @field_validator('id', mode='before')
     def process_user(cls, value: uuid.UUID | str) -> uuid.UUID | str:
+        # dont do that shit
         if value in ('none', 'null'):
             return uuid.UUID(int=0)
 
