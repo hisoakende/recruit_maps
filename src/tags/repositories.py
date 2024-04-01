@@ -37,6 +37,7 @@ class TagRepository:
         )
 
     async def get_tags(self, user_id: uuid.UUID | None, filters: TagFilters) -> list[Tag]:
+        # dont do that shit again
         if filters.user.id == uuid.UUID(int=0):
             filters.user.id = None
 
